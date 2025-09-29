@@ -1,0 +1,19 @@
+# FastAPI and server
+fastapi>=0.100.0
+uvicorn[standard]>=0.23.0
+
+# Database and ORM
+sqlalchemy>=2.0.0
+pymysql>=1.0.2
+cryptography>=3.4.8
+
+
+# Configuration and validation
+pydantic>=2.4.0
+pydantic-settings>=2.0.0
+
+# File handling (for your upload functionality)
+python-multipart>=0.0.6
+
+# Optional: for better performance
+orjson>=3.9.0
