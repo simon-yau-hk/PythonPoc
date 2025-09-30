@@ -1,0 +1,163 @@
+-- members table
+CREATE TABLE members (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(150) UNIQUE,
+    email VARCHAR(254) UNIQUE,
+    first_name VARCHAR(30),
+    last_name VARCHAR(30),
+    password_hash VARCHAR(128),
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at DATETIME,
+    updated_at DATETIME
+);
+
+-- tasks table
+CREATE TABLE tasks (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(200),
+    description TEXT,
+    priority VARCHAR(10),
+    status VARCHAR(15),
+    due_date DATETIME,
+    created_at DATETIME,
+    updated_at DATETIME,
+    member_id INT,
+    FOREIGN KEY (member_id) REFERENCES members(id) ON DELETE CASCADE
+);
+
+-- task_items table
+CREATE TABLE task_items (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(200),
+    description TEXT,
+    is_completed BOOLEAN DEFAULT FALSE,
+    order INT DEFAULT 0,
+    created_at DATETIME,
+    updated_at DATETIME,
+    completed_at DATETIME,
+    task_id INT,
+    FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE
+);
+
+
+
+-- Insert sample members
+INSERT INTO members (username, email, first_name, last_name, password_hash, is_active) VALUES
+('johnsmith1', 'johnsmith1@gmail.com', 'John', 'Smith', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', TRUE),
+('janedoe2', 'janedoe2@yahoo.com', 'Jane', 'Doe', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', TRUE),
+('mikejohnson3', 'mikejohnson3@outlook.com', 'Mike', 'Johnson', '5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5', TRUE),
+('sarahwilliams4', 'sarahwilliams4@company.com', 'Sarah', 'Williams', '3f39d5c348e5b79d06e842c114e6cc571583bbf44e4b0ebfda1a01ec05745d43', TRUE),
+('davidbrown5', 'davidbrown5@gmail.com', 'David', 'Brown', '1b16b1df538ba12dc3f97edbb85caa7050d46c148134290feba80f8236c83db9', FALSE),
+('emilygarcia6', 'emilygarcia6@yahoo.com', 'Emily', 'Garcia', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', TRUE),
+('chrismiller7', 'chrismiller7@gmail.com', 'Chris', 'Miller', '38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da', TRUE),
+('lisadavis8', 'lisadavis8@outlook.com', 'Lisa', 'Davis', 'b4c1a8841c5c9280b5e6a6c6e8f8a3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0', TRUE),
+('tomrodriguez9', 'tomrodriguez9@company.com', 'Tom', 'Rodriguez', 'c5d2b9942d6f9395c7f7a7d7f9g0h1i2j3k4l5m6n7o8p9q0r1s2t3u4v5w6x7y8', TRUE),
+('annamartinez10', 'annamartinez10@gmail.com', 'Anna', 'Martinez', 'd6e3ca053e7fa496d8g8b8e8g0h1i2j3k4l5m6n7o8p9q0r1s2t3u4v5w6x7y8z9', TRUE);
+
+-- Insert sample tasks
+INSERT INTO tasks (title, description, priority, status, due_date, member_id) VALUES
+-- Tasks for John Smith (member_id = 1)
+('Complete project proposal', 'Write comprehensive project proposal for Q1 initiative', 'high', 'in_progress', '2025-10-15 17:00:00', 1),
+('Review code changes', 'Review pull requests from team members', 'medium', 'pending', '2025-10-10 12:00:00', 1),
+('Database optimization', 'Optimize slow queries in user management module', 'urgent', 'pending', '2025-10-05 15:30:00', 1),
+
+-- Tasks for Jane Doe (member_id = 2)
+('Update documentation', 'Update API documentation with latest changes', 'medium', 'completed', '2025-09-28 10:00:00', 2),
+('Fix authentication bug', 'Resolve login issues reported by users', 'high', 'in_progress', '2025-10-08 14:00:00', 2),
+('Implement new feature', 'Add dark mode toggle to user interface', 'low', 'pending', '2025-10-20 16:00:00', 2),
+
+-- Tasks for Mike Johnson (member_id = 3)
+('Write unit tests', 'Create comprehensive test suite for payment module', 'medium', 'in_progress', '2025-10-12 11:00:00', 3),
+('Deploy to production', 'Deploy version 2.1.0 to production environment', 'urgent', 'pending', '2025-10-06 09:00:00', 3),
+
+-- Tasks for Sarah Williams (member_id = 4)
+('Security audit', 'Conduct security review of authentication system', 'high', 'pending', '2025-10-18 13:00:00', 4),
+('Performance testing', 'Load test the new API endpoints', 'medium', 'completed', '2025-09-30 15:00:00', 4),
+('Client meeting preparation', 'Prepare presentation for client demo', 'medium', 'in_progress', '2025-10-07 10:00:00', 4),
+
+-- Tasks for David Brown (member_id = 5) - Inactive user
+('System backup', 'Perform weekly system backup', 'low', 'cancelled', NULL, 5),
+
+-- Tasks for Emily Garcia (member_id = 6)
+('UI redesign', 'Redesign dashboard interface', 'high', 'in_progress', '2025-10-25 12:00:00', 6),
+('API integration', 'Integrate third-party payment gateway', 'medium', 'pending', '2025-10-14 16:30:00', 6),
+
+-- Tasks for Chris Miller (member_id = 7)
+('Data migration', 'Migrate legacy data to new database schema', 'urgent', 'pending', '2025-10-04 08:00:00', 7),
+('Bug fixes', 'Fix reported issues in mobile app', 'medium', 'completed', '2025-09-29 17:00:00', 7),
+
+-- Tasks for Lisa Davis (member_id = 8)
+('User training', 'Conduct training session for new features', 'low', 'pending', '2025-10-22 14:00:00', 8),
+('Code refactoring', 'Refactor legacy authentication module', 'medium', 'in_progress', '2025-10-16 11:30:00', 8),
+
+-- Tasks for Tom Rodriguez (member_id = 9)
+('Server maintenance', 'Update server configurations and patches', 'high', 'pending', '2025-10-09 02:00:00', 9),
+
+-- Tasks for Anna Martinez (member_id = 10)
+('Quality assurance', 'Test new features before release', 'medium', 'in_progress', '2025-10-11 13:00:00', 10),
+('Documentation review', 'Review and update user manuals', 'low', 'pending', '2025-10-19 10:00:00', 10);
+
+
+-- Insert sample task items
+INSERT INTO task_items (title, description, is_completed, `order`, completed_at, task_id) VALUES
+-- Task items for "Complete project proposal" (task_id = 1)
+('Research market requirements', 'Analyze current market trends and requirements', TRUE, 1, '2025-09-28 10:30:00', 1),
+('Draft initial outline', 'Create basic structure of the proposal', TRUE, 2, '2025-09-29 14:20:00', 1),
+('Get stakeholder feedback', 'Present outline to key stakeholders', FALSE, 3, NULL, 1),
+('Finalize proposal document', 'Complete final version with all details', FALSE, 4, NULL, 1),
+
+-- Task items for "Review code changes" (task_id = 2)
+('Review authentication module PR', 'Check security implementation', FALSE, 1, NULL, 2),
+('Review UI component updates', 'Verify responsive design changes', FALSE, 2, NULL, 2),
+('Test integration changes', 'Run integration tests', FALSE, 3, NULL, 2),
+
+-- Task items for "Database optimization" (task_id = 3)
+('Identify slow queries', 'Profile database performance', TRUE, 1, '2025-09-30 09:15:00', 3),
+('Add missing indexes', 'Create indexes for frequently queried columns', FALSE, 2, NULL, 3),
+('Optimize JOIN operations', 'Rewrite complex queries', FALSE, 3, NULL, 3),
+('Update query cache settings', 'Configure MySQL query cache', FALSE, 4, NULL, 3),
+
+-- Task items for "Update documentation" (task_id = 4)
+('Update API endpoints list', 'Document all new API endpoints', TRUE, 1, '2025-09-27 11:00:00', 4),
+('Add code examples', 'Provide usage examples for each endpoint', TRUE, 2, '2025-09-27 15:30:00', 4),
+('Review for accuracy', 'Ensure all information is current', TRUE, 3, '2025-09-28 09:45:00', 4),
+('Publish updated docs', 'Deploy to documentation website', TRUE, 4, '2025-09-28 10:00:00', 4),
+
+-- Task items for "Fix authentication bug" (task_id = 5)
+('Reproduce the issue', 'Set up test environment to reproduce bug', TRUE, 1, '2025-10-01 10:00:00', 5),
+('Identify root cause', 'Debug and find the source of the problem', TRUE, 2, '2025-10-01 14:30:00', 5),
+('Implement fix', 'Code the solution', FALSE, 3, NULL, 5),
+('Test the fix', 'Verify bug is resolved', FALSE, 4, NULL, 5),
+
+-- Task items for "Write unit tests" (task_id = 7)
+('Test payment processing', 'Unit tests for payment logic', FALSE, 1, NULL, 7),
+('Test error handling', 'Tests for various error scenarios', FALSE, 2, NULL, 7),
+('Test validation rules', 'Tests for input validation', TRUE, 3, '2025-10-02 16:20:00', 7),
+('Achieve 80% code coverage', 'Ensure adequate test coverage', FALSE, 4, NULL, 7),
+
+-- Task items for "Security audit" (task_id = 9)
+('Review authentication flow', 'Audit login/logout processes', FALSE, 1, NULL, 9),
+('Check authorization logic', 'Verify user permissions are correct', FALSE, 2, NULL, 9),
+('Test for SQL injection', 'Security testing for database queries', FALSE, 3, NULL, 9),
+('Validate input sanitization', 'Check all user inputs are properly sanitized', FALSE, 4, NULL, 9),
+('Generate security report', 'Document findings and recommendations', FALSE, 5, NULL, 9),
+
+-- Task items for "UI redesign" (task_id = 13)
+('Create wireframes', 'Design basic layout structure', TRUE, 1, '2025-09-25 12:00:00', 13),
+('Design mockups', 'Create detailed visual designs', FALSE, 2, NULL, 13),
+('Implement responsive layout', 'Code the responsive design', FALSE, 3, NULL, 13),
+('User testing', 'Get feedback from test users', FALSE, 4, NULL, 13),
+
+-- Task items for "Data migration" (task_id = 15)
+('Backup current data', 'Create full database backup', TRUE, 1, '2025-10-01 08:30:00', 15),
+('Create migration scripts', 'Write SQL scripts for data transformation', FALSE, 2, NULL, 15),
+('Test migration on staging', 'Run migration on test environment', FALSE, 3, NULL, 15),
+('Execute production migration', 'Run migration on live database', FALSE, 4, NULL, 15),
+('Verify data integrity', 'Check all data migrated correctly', FALSE, 5, NULL, 15),
+
+-- Task items for "Quality assurance" (task_id = 20)
+('Create test cases', 'Define comprehensive test scenarios', FALSE, 1, NULL, 20),
+('Execute manual tests', 'Run through all test cases manually', FALSE, 2, NULL, 20),
+('Automated testing', 'Run automated test suite', FALSE, 3, NULL, 20),
+('Bug reporting', 'Document any issues found', FALSE, 4, NULL, 20),
+('Regression testing', 'Test previous features still work', FALSE, 5, NULL, 20);
