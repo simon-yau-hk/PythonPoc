@@ -167,3 +167,20 @@ SPECTACULAR_SETTINGS = {
 
 # CORS settings (for frontend integration)
 CORS_ALLOW_ALL_ORIGINS = True  # Only for development!
+
+#ORM logging
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'loggers': {
+#         'django.db.backends': {
+#             'handlers': ['console'],
+#             'level': 'DEBUG',
+#         },
+#     },
+# }
